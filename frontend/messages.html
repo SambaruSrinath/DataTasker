@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sent Messages</title>
+</head>
+<body>
+  <h1>Sent Messages</h1>
+  <ul id="messagesList"></ul>
+
+  <script>
+    fetch('/sent-messages')
+      .then(response => response.json())
+      .then(data => {
+        const messagesList = document.getElementById('messagesList');
+        data.forEach(message => {
+          const li = document.createElement('li');
+          li.textContent = `${message.name} - ${message.time} - OTP: ${message.otp}`;
+          messagesList.appendChild(li);
+        });
+      });
+  </script>
+</body>
+</html>

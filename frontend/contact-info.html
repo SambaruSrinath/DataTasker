@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Info</title>
+</head>
+<body>
+  <h1>Contact Information</h1>
+  <p id="contactDetails"></p>
+  <button id="sendOtpBtn">Send OTP</button>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const contactId = urlParams.get('id');
+    
+    fetch('/contacts.json')
+      .then(response => response.json())
+      .then(data => {
+        const contact = data.find(c => c.id == contactId);
+        document.getElementById('contactDetails').innerHTML = `Name: ${contact.first_name} ${contact.last_name} <br> Phone: ${contact.phone}`;
+      });
+
+    document.getElementById('sendOtpBtn').onclick = function() {
+      fetch(`/send-otp?id=${contactId}`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => alert(`OTP sent: ${data.otp}`))
+        .catch(error => alert('Error sending OTP'));
+    };
+  </script>
+</body>
+</html>

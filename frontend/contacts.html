@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacts List</title>
+</head>
+<body>
+  <h1>Contacts</h1>
+  <ul id="contactsList"></ul>
+  
+  <script>
+    fetch('/contacts.json')
+      .then(response => response.json())
+      .then(data => {
+        const contactsList = document.getElementById('contactsList');
+        data.forEach(contact => {
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="/contact-info.html?id=${contact.id}">${contact.first_name} ${contact.last_name}</a>`;
+          contactsList.appendChild(li);
+        });
+      });
+  </script>
+</body>
+</html>
